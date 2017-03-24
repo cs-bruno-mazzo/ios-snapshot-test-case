@@ -29,9 +29,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FBSnapshotTestCase/Tolerance.h>
 
 @interface UIImage (Compare)
 
-- (BOOL)fb_compareWithImage:(UIImage *)image tolerance:(CGFloat)tolerance;
+- (BOOL)fb_compareWithImage:(UIImage *)image tolerance:(Tolerance *)tolerance;
 
 @end

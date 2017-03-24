@@ -68,7 +68,7 @@
 - (NSString *)snapshotVerifyViewOrLayer:(id)viewOrLayer
                              identifier:(NSString *)identifier
                                suffixes:(NSOrderedSet *)suffixes
-                              tolerance:(CGFloat)tolerance
+                              tolerance:(Tolerance *)tolerance
 {
   if (nil == viewOrLayer) {
     return @"Object to be snapshotted must not be nil";
@@ -124,7 +124,7 @@
 - (BOOL)compareSnapshotOfLayer:(CALayer *)layer
       referenceImagesDirectory:(NSString *)referenceImagesDirectory
                     identifier:(NSString *)identifier
-                     tolerance:(CGFloat)tolerance
+                     tolerance:(Tolerance *)tolerance
                          error:(NSError **)errorPtr
 {
   return [self _compareSnapshotOfViewOrLayer:layer
@@ -137,7 +137,7 @@
 - (BOOL)compareSnapshotOfView:(UIView *)view
      referenceImagesDirectory:(NSString *)referenceImagesDirectory
                    identifier:(NSString *)identifier
-                    tolerance:(CGFloat)tolerance
+                    tolerance:(Tolerance *)tolerance
                         error:(NSError **)errorPtr
 {
   return [self _compareSnapshotOfViewOrLayer:view
@@ -178,14 +178,14 @@
 - (BOOL)_compareSnapshotOfViewOrLayer:(id)viewOrLayer
              referenceImagesDirectory:(NSString *)referenceImagesDirectory
                            identifier:(NSString *)identifier
-                            tolerance:(CGFloat)tolerance
+                            tolerance:(Tolerance *)tolerance
                                 error:(NSError **)errorPtr
 {
   _snapshotController.referenceImagesDirectory = referenceImagesDirectory;
   return [_snapshotController compareSnapshotOfViewOrLayer:viewOrLayer
                                                   selector:self.invocation.selector
                                                 identifier:identifier
-                                                 tolerance:tolerance
+                                                 toleranceObject:tolerance
                                                      error:errorPtr];
 }
 

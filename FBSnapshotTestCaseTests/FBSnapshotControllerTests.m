@@ -11,6 +11,7 @@
 #import <XCTest/XCTest.h>
 #import "FBSnapshotTestController.h"
 #import "FBSnapshotTestCasePlatform.h"
+#import "Tolerance.h"
 
 @interface FBSnapshotControllerTests : XCTestCase
 
@@ -29,7 +30,7 @@
 
     FBSnapshotTestController *controller = [[FBSnapshotTestController alloc] initWithTestClass:nil];
     NSError *error = nil;
-    XCTAssertTrue([controller compareReferenceImage:referenceImage toImage:testImage tolerance:0 error:&error]);
+  XCTAssertTrue([controller compareReferenceImage:referenceImage toImage:testImage toleranceObject:[Tolerance new] error:&error]);
     XCTAssertNil(error);
 }
 
@@ -42,7 +43,11 @@
 
     FBSnapshotTestController *controller = [[FBSnapshotTestController alloc] initWithTestClass:nil];
     NSError *error = nil;
-    XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage tolerance:0 error:&error]);
+  
+    Tolerance *tolerance = [Tolerance new];
+    tolerance.useGridTolerance = NO;
+  
+    XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage toleranceObject:tolerance error:&error]);
     XCTAssertNotNil(error);
     XCTAssertEqual(error.code, FBSnapshotTestControllerErrorCodeImagesDifferent);
 }
@@ -55,9 +60,14 @@
     XCTAssertNotNil(testImage);
 
     FBSnapshotTestController *controller = [[FBSnapshotTestController alloc] initWithTestClass:nil];
+  
+    Tolerance *tolerance = [Tolerance new];
+    tolerance.useGridTolerance = NO;
+    tolerance.pixelPercent = 0.0001;
+  
     // With virtually no margin for error, this should fail to be equal
     NSError *error = nil;
-    XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage tolerance:0.0001 error:&error]);
+    XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage toleranceObject:tolerance error:&error]);
     XCTAssertNotNil(error);
     XCTAssertEqual(error.code, FBSnapshotTestControllerErrorCodeImagesDifferent);
 }
@@ -71,8 +81,13 @@
 
     FBSnapshotTestController *controller = [[FBSnapshotTestController alloc] initWithTestClass:nil];
     // With some tolerance these should be considered the same
+  
+  Tolerance *tolerance = [Tolerance new];
+  tolerance.useGridTolerance = NO;
+  tolerance.pixelPercent = 0.001;
+  
     NSError *error = nil;
-    XCTAssertTrue([controller compareReferenceImage:referenceImage toImage:testImage tolerance:.001 error:&error]);
+    XCTAssertTrue([controller compareReferenceImage:referenceImage toImage:testImage toleranceObject:tolerance error:&error]);
     XCTAssertNil(error);
 }
 
@@ -86,7 +101,7 @@
   FBSnapshotTestController *controller = [[FBSnapshotTestController alloc] initWithTestClass:nil];
   // With some tolerance these should be considered the same
   NSError *error = nil;
-  XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage tolerance:0 error:&error]);
+  XCTAssertFalse([controller compareReferenceImage:referenceImage toImage:testImage toleranceObject:[Tolerance new] error:&error]);
   XCTAssertNotNil(error);
   XCTAssertEqual(error.code, FBSnapshotTestControllerErrorCodeImagesDifferentSizes);
 }

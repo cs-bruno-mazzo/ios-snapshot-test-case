@@ -10,6 +10,7 @@
 
 #import <FBSnapshotTestCase/FBSnapshotTestCasePlatform.h>
 #import <FBSnapshotTestCase/FBSnapshotTestController.h>
+#import <FBSnapshotTestCase/Tolerance.h>
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -125,7 +126,7 @@
 - (NSString *)snapshotVerifyViewOrLayer:(id)viewOrLayer
                              identifier:(NSString *)identifier
                                suffixes:(NSOrderedSet *)suffixes
-                              tolerance:(CGFloat)tolerance;
+                              tolerance:(Tolerance *)tolerance;
 
 /**
  Performs the comparison or records a snapshot of the layer if recordMode is YES.
@@ -139,7 +140,7 @@
 - (BOOL)compareSnapshotOfLayer:(CALayer *)layer
       referenceImagesDirectory:(NSString *)referenceImagesDirectory
                     identifier:(NSString *)identifier
-                     tolerance:(CGFloat)tolerance
+                     tolerance:(Tolerance *)tolerance
                          error:(NSError **)errorPtr;
 
 /**
@@ -154,7 +155,7 @@
 - (BOOL)compareSnapshotOfView:(UIView *)view
      referenceImagesDirectory:(NSString *)referenceImagesDirectory
                    identifier:(NSString *)identifier
-                    tolerance:(CGFloat)tolerance
+                    tolerance:(Tolerance *)tolerance
                         error:(NSError **)errorPtr;
 
 /**
